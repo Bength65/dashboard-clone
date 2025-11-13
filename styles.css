@@ -7,6 +7,7 @@
   --border: #dfe3ea;
   --accent: #1663f2;
   --menu-bg: #eceff3;
+  --menu-fg: #0b1220;
 }
 
 html[data-theme="dark"] {
@@ -16,6 +17,7 @@ html[data-theme="dark"] {
   --chart-bg: #1f2a3a;
   --border: #23304a;
   --menu-bg: #2a3545;
+  --menu-fg: #e9edf5;
 }
 
 body {
@@ -24,22 +26,29 @@ body {
   color: var(--fg);
   font-family: system-ui, sans-serif;
   line-height: 1.5;
+  position: relative;
+  padding: 4px;
+  border-radius: 12px;
+  box-sizing: border-box;
+  border: 5px solid gold;
 }
 
 /* ====== Layout ====== */
 .layout {
   display: flex;
   flex-wrap: wrap;
-  min-height: 100vh;
+  align-items: flex-start;
+  
 }
 
 /* ====== Sidebar ====== */
 .sidebar {
   background: var(--menu-bg);
-  color: var(--fg);
+  color: var(--menu--fg);
   border-right: 1px solid var(--border);
   padding: 1rem;
   flex-shrink: 0;
+  border-radius: 6px;
 }
 
 
@@ -50,8 +59,8 @@ body {
 }
 
 .menu a {
-  background: color-mix(in oklab, var(--menu-bg), var(--border) 10%);
-  color: var(--fg);
+  background: transparent;
+  color: var(--menu--fg);
   font-weight: 600;
   padding: .5rem;
   border-radius: 6px;
