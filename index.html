@@ -97,7 +97,7 @@
   </main>
 
   <footer class="site-footer">
-    <small>© 2025 Bengt Hafström</small>
+    <h4>© 2025 Bengt Hafström</h4>
   </footer>
 
   <script>
@@ -116,6 +116,7 @@
       const current = document.documentElement.dataset.theme;
       const next = current === "dark" ? "light" : "dark";
       document.documentElement.dataset.theme = next;
+      drawChart();
     });
     document.documentElement.dataset.theme = "light";
 
@@ -153,21 +154,27 @@
         decreasing: {line: {color: 'red'}}
       };
       const latestPrice = parseFloat(raw[raw.length - 1][4]).toFixed(2);
-      const layout = {
-        xaxis: {rangeslider: {visible: false}},
-        yaxis: {side: "right", dtick: 100, title: "USD"},
-        margin: {l: 40, r: 100, t: 40, b: 40},
-        annotations: [
-          {
-            xref: "paper", yref: "paper",
-            x: 1.05, y: 1,
-            text: `Current Price: $${latestPrice}`,
-            showarrow: false,
-            font: {size: 14, color: "black"},
-            align: "left"
-          }
-        ]
-      };
+    const chartBg = getComputedStyle(document.body).getPropertyValue('--chart-bg').trim();
+
+const layout = {
+  xaxis: { rangeslider: { visible: false } },
+  yaxis: { side: "right", dtick: 100, title: "USD" },
+  margin: { l: 40, r: 100, t: 40, b: 40 },
+  paper_bgcolor: chartBg,
+  plot_bgcolor: chartBg,
+  annotations: [
+    {
+      xref: "paper", yref: "paper",
+      x: 1.05, y: 1,
+      text: `Current Price: $${latestPrice}`,
+      showarrow: false,
+      font: { size: 14, color: "black" },
+      align: "left",
+      yanchor: "top",
+      yshift: 10
+    }
+  ]
+};
       Plotly.react(document.querySelector(".chart"), [trace], layout);
     }
     drawChart();

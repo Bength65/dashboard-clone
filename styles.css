@@ -8,14 +8,16 @@
   --border: #dfe3ea;
   --accent: #1663f2;
   --accent-2: #14b8a6;
+  --chart-bg: #f6f7f9;
 }
 
 html[data-theme="dark"] {
   --bg: #0b1220;
   --fg: #e9edf5;
-  --muted: #a7b0c2;
+  --muted: #5b677a;
   --card: #141c2f;
   --border: #23304a;
+  --chart-bg: #1f2a3a;
 }
 
 /* ====== Baslayout ====== */
