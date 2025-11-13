@@ -16,7 +16,7 @@
         <a href="#">Wallet</a>
         <a href="#">News</a>
         <a href="#">Settings</a>
-        <a href="mailto:bengt@example.com" class="mail-link" aria-label="Skicka e-post">✉️ Mail</a>
+        <a href="mailto:bength65@gmail.com" class="mail-link" aria-label="Skicka e-post">✉️ Mail</a>
         <button class="theme-toggle">Dark mode</button>
       </nav>
     </aside>
@@ -26,16 +26,16 @@
         <h2>My Portfolio</h2>
         <div class="coin-grid">
           <!-- 10 coins -->
-          <div class="coin-card"><img src="bilder/btc.svg" alt="BTC" /><h3>BTC</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/eth.svg" alt="ETH" /><h3>ETH</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/sol.svg" alt="SOL" /><h3>SOL</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/ltc.svg" alt="LTC" /><h3>LTC</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/xrp.svg" alt="XRP" /><h3>XRP</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/ada.svg" alt="ADA" /><h3>ADA</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/doge.svg" alt="DOGE" /><h3>DOGE</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/bnb.svg" alt="BNB" /><h3>BNB</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/dot.svg" alt="DOT" /><h3>DOT</h3><p>10% – <span class="price">...</span></p></div>
-          <div class="coin-card"><img src="bilder/avax.svg" alt="AVAX" /><h3>AVAX</h3><p>10% – <span class="price">...</span></p></div>
+          <div class="coin-card"><img src="bilder/btc.svg" alt="BTC" /><h3>BTC</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/eth.svg" alt="ETH" /><h3>ETH</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/sol.svg" alt="SOL" /><h3>SOL</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/ltc.svg" alt="LTC" /><h3>LTC</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/xrp.svg" alt="XRP" class="coin-logo xrp-logo"/><h3>XRP</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/ada.svg" alt="ADA" /><h3>ADA</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/doge.svg" alt="DOGE" /><h3>DOGE</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/bnb.svg" alt="BNB" /><h3>BNB</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/dot.svg" alt="DOT" /><h3>DOT</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/avax.svg" alt="AVAX" /><h3>AVAX</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
         </div>
       </section>
 
@@ -53,11 +53,11 @@
       const current = document.documentElement.dataset.theme;
       const next = current === "dark" ? "light" : "dark";
       document.documentElement.dataset.theme = next;
-      drawChart(); // direkt uppdatering
+      drawChart();
     });
     document.documentElement.dataset.theme = "light";
 
-    // Portföljpriser
+    // Coins
     const coins = [
       { symbol: "BTCUSDT", name: "BTC" },
       { symbol: "ETHUSDT", name: "ETH" },
@@ -71,14 +71,47 @@
       { symbol: "AVAXUSDT", name: "AVAX" }
     ];
 
+    const previousPrices = {};
+
     async function updatePrices() {
       for (const coin of coins) {
-        const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coin.symbol}`);
-        const data = await res.json();
-        const card = [...document.querySelectorAll(".coin-card")].find(c => c.querySelector("h3").textContent === coin.name);
-        if (card) card.querySelector(".price").textContent = `$${parseFloat(data.price).toFixed(2)}`;
+        try {
+          const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coin.symbol}`);
+          const data = await res.json();
+          const price = parseFloat(data.price);
+
+          const card = [...document.querySelectorAll(".coin-card")]
+            .find(c => c.querySelector("h3").textContent === coin.name);
+
+          if (card) {
+            const priceEl = card.querySelector(".price");
+            const icon = card.querySelector(".change-icon");
+
+            if (priceEl) priceEl.textContent = `$${price.toFixed(2)}`;
+
+            if (previousPrices[coin.symbol] !== undefined && icon) {
+              icon.classList.remove("up", "down");
+              void icon.offsetWidth;
+
+              if (price > previousPrices[coin.symbol]) {
+                icon.textContent = "▲";
+                icon.classList.add("up");
+              } else if (price < previousPrices[coin.symbol]) {
+                icon.textContent = "▼";
+                icon.classList.add("down");
+              } else {
+                icon.textContent = "→";
+              }
+            }
+
+            previousPrices[coin.symbol] = price;
+          }
+        } catch (err) {
+          console.error(`Fel vid hämtning av ${coin.symbol}:`, err);
+        }
       }
     }
+
     updatePrices();
     setInterval(updatePrices, 10000);
 
@@ -125,6 +158,7 @@
 
       Plotly.react(document.querySelector(".chart"), [trace], layout, {responsive: true});
     }
+
     drawChart();
     setInterval(drawChart, 10000);
   </script>
