@@ -19,6 +19,9 @@ html[data-theme="dark"] {
   --menu-bg: #2a3545;
   --menu-fg: #e9edf5;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   margin: 0;
@@ -26,7 +29,7 @@ body {
   color: var(--fg);
   font-family: system-ui, sans-serif;
   line-height: 1.5;
-  height: 100vh;
+  height: auto;
   position: relative;
   padding: 4px;
   border-radius: 12px;
@@ -247,6 +250,99 @@ html[data-theme="dark"] .xrp-logo {
   height: 400px;
   border-radius: 16px;
   overflow: hidden;
+}
+/* Wallet */
+.wallet {
+  border: 3px solid gold;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  background: var(--card);
+ 
+}
+.wallet-info {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+}
+.wallet-icon {
+  width: 32px;
+  height: 32px;
+}
+
+/* Transaktionshistorik */
+.transactions {
+  border: 3px solid gold;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: var(--card);
+}
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.transaction-table th,
+.transaction-table td {
+  padding: 0.5rem;
+  text-align: left;
+}
+.transaction-table tbody tr:nth-child(even) {
+  background: var(--menu-bg);
+}
+.transaction-table tbody tr:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* Skapa transaktion */
+.create-transaction {
+  border: 3px solid gold;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background: var(--card);
+}
+.create-transaction form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.create-transaction label {
+  font-weight: 600;
+}
+.create-transaction input,
+.create-transaction select {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--fg);
+}
+.create-transaction input:focus,
+.create-transaction select:focus,
+.create-transaction button:focus {
+  outline: 2px solid var(--accent);
+}
+.form-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.create-transaction button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.create-transaction button[type="submit"] {
+  background: var(--accent);
+  color: #fff;
+}
+.create-transaction button[type="reset"] {
+  background: crimson;
+  color: #fff;
 }
 
 @media (min-width: 768px) {

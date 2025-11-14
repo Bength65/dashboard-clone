@@ -22,9 +22,11 @@
   <div class="layout">
     <aside class="sidebar">
       <nav class="menu">
-        <a href="#">Account</a>
-        <a href="#">Chart</a>
-        <a href="#">Wallet</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#wallet">Wallet</a>
+        <a href="#transactions">Transaktionshistorik</a>
+        <a href="#create-transaction">Skapa transaktion</a>
+        <a href="#chart">Chart</a>
         <a href="#">News</a>
         <a href="#">Settings</a>
         <a href="mailto:bength65@gmail.com" class="mail-link" aria-label="Skicka e-post">✉️ Mail</a>
@@ -33,7 +35,8 @@
     </aside>
   
     <main class="main-content">
-      <section class="portfolio">
+      <a name="portfolio"></a>
+      <section class="portfolio" name="portfolio">
         <h2>My Portfolio</h2>
         <div class="coin-grid">
           <div class="coin-card"><img src="bilder/btc.svg" alt="BTC" /><h3>BTC</h3><p><span class="price">...</span><span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>      
@@ -48,11 +51,90 @@
           <div class="coin-card"><img src="bilder/avax.svg" alt="AVAX" /><h3>AVAX</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
         </div>
       </section>
-
-      <section class="chart-section">
-        <h2>BTC/USDT Candlestick</h2>
+      <a name="chart"></a>
+      <section class="chart-section" name="chart">
+        <h2>BTC/USDT</h2>
         <div class="chart"></div>
+        <!-- Wallet -->
+<a name="wallet"></a>
+<section class="wallet" name="wallet">
+  <h2>Wallet</h2>
+  <div class="wallet-info">
+    <img src="bilder/btc.svg" alt="BTC" class="wallet-icon" />
+    <p>Aktuell balans: <h1><strong>$34,565.00</strong></h1></p>
+    <p>Utveckling: +5.2%</p>
+  </div>
+</section>
+
+<!-- Transaktionshistorik -->
+<a name="transactions"></a>
+<section class="transactions" name="transactions">
+  <h2>Transaktionshistorik</h2>
+  <table class="transaction-table">
+    <thead>
+      <tr>
+        <th>Från</th>
+        <th>Till</th>
+        <th>Belopp</th>
+        <th>Tid</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bengt</td>
+        <td>Alice</td>
+        <td>0.25 BTC</td>
+        <td>2025‑11‑14 10:32</td>
+      </tr>
+      <tr>
+        <td>Bob</td>
+        <td>Bengt</td>
+        <td>1.00 ETH</td>
+        <td>2025‑11‑13 18:45</td>
+      </tr>
+      <tr>
+        <td>Bengt</td>
+        <td>Charlie</td>
+        <td>50 ADA</td>
+        <td>2025‑11‑12 09:12</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- Skapa transaktion -->
+ <a name="create-transaction"></a>
+<section class="create-transaction" name="create-transaction">
+  <h2>Skapa transaktion</h2>
+  <form>
+    <label for="from">Från:</label>
+    <input type="text" id="from" name="from" />
+
+    <label for="to">Till:</label>
+    <input type="text" id="to" name="to" />
+
+    <label for="amount">Belopp:</label>
+    <input type="number" id="amount" name="amount" step="0.01" />
+
+    <label for="currency">Valuta:</label>
+    <select id="currency" name="currency">
+      <option>BTC</option>
+      <option>ETH</option>
+      <option>ADA</option>
+      <option>XRP</option>
+    </select>
+
+    <div class="form-buttons">
+      <button type="submit">Skicka</button>
+      <button type="reset">Rensa</button>
+    </div>
+  </form>
+</section>
       </section>
+        <footer class="site-footer">
+    <p>© 2025 Bengt Hafström. All rights reserved.</p>
+  </footer>
+
     </main>
 
     
