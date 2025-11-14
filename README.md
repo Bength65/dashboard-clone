@@ -3,4 +3,7 @@
 Här är repot för din inlämningsuppgift.
 
 I den finns just nu endast en `.gitignore`-fil, som exkluderar vissa systemfiler från att komma med i versionshanteringen.
-![validering](image.png)
+![Tillgänglighet och validering av css](image.png)
+![Tillgänglighet och validering av html](image-1.png)
+![Bengt´s Dashboard](image-2.png)
+![Bengt´s Dashboard](image-3.png)
