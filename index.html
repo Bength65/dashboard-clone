@@ -31,22 +31,21 @@
         <button class="theme-toggle">Dark mode</button>
       </nav>
     </aside>
-
+  
     <main class="main-content">
       <section class="portfolio">
         <h2>My Portfolio</h2>
         <div class="coin-grid">
-          <!-- 10 coins -->
-          <div class="coin-card"><img src="bilder/btc.svg" alt="BTC" /><h3>BTC</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/eth.svg" alt="ETH" /><h3>ETH</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/sol.svg" alt="SOL" /><h3>SOL</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/ltc.svg" alt="LTC" /><h3>LTC</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/xrp.svg" alt="XRP" class="coin-logo xrp-logo"/><h3>XRP</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/ada.svg" alt="ADA" /><h3>ADA</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/doge.svg" alt="DOGE" /><h3>DOGE</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/bnb.svg" alt="BNB" /><h3>BNB</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/dot.svg" alt="DOT" /><h3>DOT</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
-          <div class="coin-card"><img src="bilder/avax.svg" alt="AVAX" /><h3>AVAX</h3><p><span class="price">...</span> <span class="change-icon">↕</span></p></div>
+          <div class="coin-card"><img src="bilder/btc.svg" alt="BTC" /><h3>BTC</h3><p><span class="price">...</span><span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>      
+          <div class="coin-card"><img src="bilder/eth.svg" alt="ETH" /><h3>ETH</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/sol.svg" alt="SOL" /><h3>SOL</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/ltc.svg" alt="LTC" /><h3>LTC</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/xrp.svg" alt="XRP" class="coin-logo xrp-logo"/><h3>XRP</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/ada.svg" alt="ADA" /><h3>ADA</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/doge.svg" alt="DOGE" /><h3>DOGE</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/bnb.svg" alt="BNB" /><h3>BNB</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/dot.svg" alt="DOT" /><h3>DOT</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
+          <div class="coin-card"><img src="bilder/avax.svg" alt="AVAX" /><h3>AVAX</h3><p><span class="price">...</span> <span class="change-icon">↕</span><span class="change-24h">0%</span></p></div>
         </div>
       </section>
 
@@ -55,6 +54,9 @@
         <div class="chart"></div>
       </section>
     </main>
+
+    
+
   </div>
 
   <script>
@@ -82,49 +84,53 @@
       { symbol: "AVAXUSDT", name: "AVAX" }
     ];
 
-    const previousPrices = {};
+const previousPrices = {};
 
-    async function updatePrices() {
-      for (const coin of coins) {
-        try {
-          const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${coin.symbol}`);
-          const data = await res.json();
-          const price = parseFloat(data.price);
+async function updatePrices() {
+  for (const coin of coins) {
+    try {
+      const res = await fetch(`https://api.binance.com/api/v3/ticker/24hr?symbol=${coin.symbol}`);
+      const data = await res.json();
+      const price = parseFloat(data.lastPrice);
+      const changePercent = parseFloat(data.priceChangePercent);
 
-          const card = [...document.querySelectorAll(".coin-card")]
-            .find(c => c.querySelector("h3").textContent === coin.name);
+      const card = [...document.querySelectorAll(".coin-card")]
+        .find(c => c.querySelector("h3").textContent === coin.name);
 
-          if (card) {
-            const priceEl = card.querySelector(".price");
-            const icon = card.querySelector(".change-icon");
+      if (card) {
+        const priceEl = card.querySelector(".price");
+        const icon = card.querySelector(".change-icon");
+        const changeEl = card.querySelector(".change-24h");
 
-            if (priceEl) priceEl.textContent = `$${price.toFixed(2)}`;
+        if (priceEl) priceEl.textContent = `$${price.toFixed(2)}`;
+        if (changeEl) changeEl.textContent = `${changePercent.toFixed(2)}%`;
 
-            if (previousPrices[coin.symbol] !== undefined && icon) {
-              icon.classList.remove("up", "down");
-              void icon.offsetWidth;
+        // Pil‑logik
+        if (previousPrices[coin.symbol] !== undefined && icon) {
+          icon.classList.remove("up", "down");
+          void icon.offsetWidth;
 
-              if (price > previousPrices[coin.symbol]) {
-                icon.textContent = "▲";
-                icon.classList.add("up");
-              } else if (price < previousPrices[coin.symbol]) {
-                icon.textContent = "▼";
-                icon.classList.add("down");
-              } else {
-                icon.textContent = "→";
-              }
-            }
-
-            previousPrices[coin.symbol] = price;
+          if (price > previousPrices[coin.symbol]) {
+            icon.textContent = "▲";
+            icon.classList.add("up");
+          } else if (price < previousPrices[coin.symbol]) {
+            icon.textContent = "▼";
+            icon.classList.add("down");
+          } else {
+            icon.textContent = "→";
           }
-        } catch (err) {
-          console.error(`Fel vid hämtning av ${coin.symbol}:`, err);
         }
-      }
-    }
 
-    updatePrices();
-    setInterval(updatePrices, 10000);
+        previousPrices[coin.symbol] = price;
+      }
+    } catch (err) {
+      console.error(`Fel vid hämtning av ${coin.symbol}:`, err);
+    }
+  }
+}
+
+updatePrices();
+setInterval(updatePrices, 10000);
 
     // Candlestick chart
     async function drawChart() {
@@ -173,5 +179,6 @@
     drawChart();
     setInterval(drawChart, 10000);
   </script>
+
 </body>
 </html>
